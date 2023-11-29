@@ -23,7 +23,6 @@ impl MerkleTree {
             let mut hasher = Sha256::new();
             hasher.update(&[datum]);
             nodes[leaf_count - 1 + i] = hasher.finalize().to_vec();
-            // nodes[leaf_count - 1 + i] = [datum].to_vec();
         }
 
         // Constrói os nós internos
@@ -41,7 +40,6 @@ impl MerkleTree {
             hasher.update(&left_hash);
             hasher.update(&right_hash);
             nodes[i] = hasher.finalize().to_vec();
-            // nodes[i] = [left_hash[0] + right_hash[0]].to_vec();
         }
 
         for node in &nodes {
@@ -57,7 +55,6 @@ impl MerkleTree {
 
         let mut node_index = leaf_count + data_index as usize - 1; // Índice do nó folha no vetor 'nodes'
         println!("node index {}", node_index);
-        // Subindo na árvore para coletar a prova
 
         // getting brother
         let sibling_index = if node_index % 2 == 0 {
@@ -67,17 +64,11 @@ impl MerkleTree {
         };
         println!("brother index {} node index {}", sibling_index, node_index);
         if sibling_index < self.nodes.len() {
-            // let position: Position = if node_index % 2 == 0 { Position::Right } else { Position::Left };
             proof.push((self.nodes[sibling_index].clone(), node_index % 2 == 0));
         }
-        // node_index = if node_index % 2 == 0 { (node_index - 1) / 2 } else { (node_index + 1) / 2};
 
         while node_index >= 1 {
             let parent_index = ((node_index + 1) / 2) - 1;
-            // let position: Position = if parent_index % 2 == 0 { Position::Right } else { Position::Left };
-
-            println!("parent index {} node index {}", parent_index, node_index);
-
             if parent_index < self.nodes.len() {
                 let missing_hash = if parent_index % 2 == 0 {
                     parent_index - 1
@@ -109,8 +100,6 @@ impl MerkleTree {
         let mut hasher = Sha256::new();
         hasher.update(&[data]);
         let mut current_hash = hasher.finalize().to_vec();
-        // let mut current_hash = [data].to_vec();
-
 
         for (hash, position) in proof {
             println!("proff elemenet {}", hex::encode(&hash));
@@ -133,14 +122,13 @@ impl MerkleTree {
         );
         current_hash == root_hash
     }
-    // Funções adicionais como generate_proof e verify_proof podem ser adicionadas aqui
 }
 
 pub fn run_demo() {
     let data = vec![1, 2, 3, 4, 5, 6];
     let merkle_tree = MerkleTree::new(data);
 
-    let data_index: u8 = 5; // Index do dado para o qual queremos gerar a prova (ex: 23 no índice 1)
+    let data_index: u8 = 1; // Index do dado para o qual queremos gerar a prova (ex: 23 no índice 1)
     let data_value = 2; // O valor do dado em si
 
     // // Gera a prova para o dado
