@@ -33,3 +33,6 @@ In this project, we have implemented a Merkle Tree in Rust for educational and d
 
 ## Contribution
 Feel free to contribute improvements to this project. You can open issues or submit pull requests with your changes.
+
+Author: Raphael F. Queiroz
+
